@@ -192,7 +192,7 @@ def main():
     # Preprocess the data
     df = preprocessing(df)
 
-    # I chose the column 'duration' for statistical analysis
+    # I choosed the column 'duration' for statistical analysis
     col = 'duration'
 
     # Generate the plots
