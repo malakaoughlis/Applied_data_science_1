@@ -162,8 +162,8 @@ def preprocessing(df):
               inplace=True)
 
     # Convert 'duration' to numeric by extracting minutes
-    df['duration'] = df['duration'].astype(str).str.extract(r'(\d+)').astype(float)
-
+    df['duration'] = df['duration'].astype(str).\
+        str.extract(r'(\d+)').astype(float)
     # Ensure 'release_year' is an integer
     df['release_year'] = df['release_year'].astype(int)
 
