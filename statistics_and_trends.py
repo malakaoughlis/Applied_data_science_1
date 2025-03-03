@@ -10,6 +10,7 @@ and ensure your code is PEP-8 compliant, including docstrings.
 
 
 # Import libraries
+from corner import corner
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
