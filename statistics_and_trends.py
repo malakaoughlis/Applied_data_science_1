@@ -22,24 +22,30 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def plot_relational_plot(df):
     """
-    Create a relational plot showing the evolution of the number of movies added per year.
+    Create a relational plot showing the evolution 
+    of the number of movies added per year.
     A line plot is used to visualize the trend over time.
     """
     
     # Check if 'date_added' column exists
     if 'date_added' in df.columns:
-        df['date_added'] = pd.to_datetime(df['date_added'], errors='coerce')  # Convert to datetime, coerce errors
-        df['year_added'] = df['date_added'].dt.year  # Extract the year from the date_added column
-        yearly_counts = df['year_added'].value_counts().sort_index()  # Count the movies added each year
+        # Convert to datetime, coerce errors
+        df['date_added'] = pd.to_datetime(df['date_added'], errors='coerce')  
+        # Extract the year from the date_added column
+        df['year_added'] = df['date_added'].dt.year 
+        # Count the movies added each year
+        yearly_counts = df['year_added'].value_counts().sort_index()  
 
         # Set up the figure size
         fig, ax = plt.subplots(figsize=(10, 6))
 
         # Create a line plot with blue color gradient
-        sns.lineplot(x=yearly_counts.index, y=yearly_counts.values, marker='o', ax=ax, color='blue')
+        sns.lineplot(x=yearly_counts.index, y=yearly_counts.values, 
+                     marker='o', ax=ax, color='blue')
 
         # Set the title and axis labels with specific font sizes and weight
-        ax.set(xlabel="Year Added", ylabel="Number of Movies Added", title="Evolution of Movies Added by Year")
+        ax.set(xlabel="Year Added", ylabel="Number of Movies Added", 
+               title="Evolution of Movies Added by Year")
         ax.title.set_fontsize(20)
         ax.title.set_fontweight('bold')
         ax.xaxis.label.set_fontsize(14)
@@ -57,20 +63,24 @@ def plot_relational_plot(df):
   
 def plot_categorical_plot(df):
     """
-    Create a categorical plot (bar plot) showing the top 10 countries with the most movies.
+    Create a categorical plot (bar plot) showing the 
+    top 10 countries with the most movies.
     """
     
     if 'country' in df.columns:
-        top_countries = df['country'].value_counts().head(10)  # Get top 10 countries with most movies
+        # Get top 10 countries with most movies
+        top_countries = df['country'].value_counts().head(10)
 
         # Set up the figure size
         fig, ax = plt.subplots(figsize=(10, 6))
 
         # Create a bar plot with a blue color gradient
-        sns.barplot(x=top_countries.values, y=top_countries.index, palette='viridis', ax=ax)
+        sns.barplot(x=top_countries.values, y=top_countries.index,
+                    palette='viridis', ax=ax)
 
         # Set the title and axis labels with specific font sizes and weight
-        ax.set(xlabel="Number of Movies", ylabel="Country", title="Top 10 Countries with the Most Movies")
+        ax.set(xlabel="Number of Movies", ylabel="Country", 
+               title="Top 10 Countries with the Most Movies")
         ax.title.set_fontsize(20)
         ax.title.set_fontweight('bold')
         ax.xaxis.label.set_fontsize(14)
@@ -85,16 +95,18 @@ def plot_categorical_plot(df):
 
 def plot_statistical_plot(df):
     """
-    Create a statistical plot (correlation heatmap) to visualize correlations between numerical variables.
+    Create a statistical plot (correlation heatmap) 
+    to visualize correlations between numerical variables.
     """
-    
-    numeric_df = df.select_dtypes(include=['number'])  # Select only numerical columns
+    # Select only numerical columns
+    numeric_df = df.select_dtypes(include=['number']) 
 
     # Set up the figure size
     fig, ax = plt.subplots(figsize=(15, 6))
 
     # Create a heatmap with a blue color gradient for correlation
-    sns.heatmap(numeric_df.corr(), annot=True, cmap='Blues', linewidths=0.5, ax=ax)
+    sns.heatmap(numeric_df.corr(), annot=True, cmap='Blues', 
+                linewidths=0.5, ax=ax)
 
     # Set the title with specific font sizes and weight
     ax.set_title('Correlation Heatmap of Numeric Variables')
@@ -111,21 +123,24 @@ def plot_statistical_plot(df):
 def statistical_analysis(df, col):
     """
     Perform statistical analysis on a given column:
-    calculates mean, standard deviation, skewness, and excess kurtosis.
+    calculates mean, standard deviation, skewness, 
+    and excess kurtosis.
     """
     # Calculate statistical moments
-    mean = df[col].mean()  # Mean of the column
-    stddev = df[col].std()  # Standard deviation
-    skew = df[col].skew()  # Skewness (measure of asymmetry)
-    excess_kurtosis = df[col].kurtosis() - 3  # Excess kurtosis subtracts 3 to normalize
+    mean = df[col].mean()  
+    stddev = df[col].std()  
+    skew = df[col].skew() 
+    excess_kurtosis = df[col].kurtosis() - 3  
 
     return mean, stddev, skew, excess_kurtosis
 
 
 def preprocessing(df):
     """
-    Preprocess the data by cleaning missing values, converting appropriate columns,
-    and providing quick insights using describe(), head(), and corr().
+    Preprocess the data by cleaning missing values,
+    converting appropriate columns,
+    and providing quick insights using describe(), 
+    head(), and corr().
     """
     
     # Print preview of the first rows of the dataset
@@ -136,12 +151,15 @@ def preprocessing(df):
     print("\nDescriptive statistics for numerical variables:")
     print(df.describe())
     
-    numeric_df = df.select_dtypes(include=['number'])  # Select numerical columns for correlation
+    # Select numerical columns for correlation
+    numeric_df = df.select_dtypes(include=['number'])
     print("\nCorrelation matrix:")
-    print(numeric_df.corr())  # To avoid errors with non-numeric data
+    # To avoid errors with non-numeric data
+    print(numeric_df.corr())  
 
     # Drop rows with missing values in essential columns
-    df.dropna(subset=['release_year', 'duration', 'country'], inplace=True)
+    df.dropna(subset=['release_year', 'duration', 'country'], 
+              inplace=True)
 
     # Convert 'duration' to numeric by extracting minutes
     df['duration'] = df['duration'].astype(str).str.extract(r'(\d+)').astype(float)
@@ -154,7 +172,8 @@ def preprocessing(df):
 
 def writing(moments, col):
     """
-    Print the statistical moments for a specific column and describe the distribution.
+    Print the statistical moments for a specific column
+    and describe the distribution.
     """
     
     if moments:
@@ -184,7 +203,8 @@ def writing(moments, col):
 
 def main():
     """
-    Main function to load data, preprocess it, and generate the plots and statistical analysis.
+    Main function to load data, preprocess it,
+    and generate the plots and statistical analysis.
     """
     # Load the data
     df = pd.read_csv('data.csv')
