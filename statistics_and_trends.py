@@ -187,12 +187,13 @@ def main():
     Main function to load data, preprocess it, and generate the plots and statistical analysis.
     """
     # Load the data
-    df = pd.read_csv('netflix_titles.csv')
+    df = pd.read_csv('data.csv')
+    df.info()
 
     # Preprocess the data
     df = preprocessing(df)
 
-    # I choosed the column 'duration' for statistical analysis
+    # I chose the column 'duration' for statistical analysis
     col = 'duration'
 
     # Generate the plots
