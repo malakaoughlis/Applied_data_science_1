@@ -178,22 +178,30 @@ def writing(moments, col):
     """
 
     if moments:
+        mean, stddev, skew, excess_kurtosis = moments  # Déballer les valeurs retournées
+
         print(f'\nFor the attribute " {col} " :')
-        print(f'Mean = {moments[0]:.2f}, '
-              f'Standard Deviation = {moments[1]:.2f}, '
-              f'Skewness = {moments[2]:.2f}, and '
-              f'Excess Kurtosis = {moments[3]:.2f}.')
+        print(f'Mean = {mean:.2f}, '
+              f'Standard Deviation = {stddev:.2f}, '
+              f'Skewness = {skew:.2f}, and '
+              f'Excess Kurtosis = {excess_kurtosis:.2f}.')
 
-        # Interpretation of skewness and kurtosis
-        if moments[2] > 0:
-            skew = 'right-skewed'
-        elif moments[2] < 0:
-            skew = 'left-skewed'
+        # Interprétation de skewness et kurtosis
+        if skew > 0:
+            skewness_desc = 'right-skewed'
+        elif skew < 0:
+            skewness_desc = 'left-skewed'
         else:
-            skew = 'not skewed'
+            skewness_desc = 'not skewed'
 
-        if moments[3] > 0:
-            kurtosis = 'leptokurtic'
+        if excess_kurtosis > 0:
+            kurtosis_desc = 'leptokurtic'
+        elif excess_kurtosis < 0:
+            kurtosis_desc = 'platykurtic'
+        else:
+            kurtosis_desc = 'mesokurtic'
+
+        print(f'The data was {skewness_desc} and {kurtosis_desc}.')
 
 
 def main():
@@ -212,6 +220,6 @@ def main():
     writing(moments, col)
     return
 
+
 if __name__ == '__main__':
     main()
-
