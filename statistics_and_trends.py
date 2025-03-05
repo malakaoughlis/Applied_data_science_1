@@ -21,9 +21,11 @@ warnings.simplefilter(action='ignore', category=FutureWarning)
 
 def plot_relational_plot(df):
     """
-    Create a relational plot showing the evolution of the number of movies added per year.
+    Create a relational plot showing the evolution 
+    of the number of movies added per year.
     A line plot is used to visualize the trend over time.
     """
+    
     # Check if 'date_added' column exists
     if 'date_added' in df.columns:
         # Convert to datetime, coerce errors
@@ -37,10 +39,12 @@ def plot_relational_plot(df):
         fig, ax = plt.subplots(figsize=(10, 6))
 
         # Create a line plot with blue color gradient
-        sns.lineplot(x=yearly_counts.index, y=yearly_counts.values, marker='o', ax=ax, color='blue')
+        sns.lineplot(x=yearly_counts.index, y=yearly_counts.values, 
+                     marker='o', ax=ax, color='blue')
 
         # Set the title and axis labels with specific font sizes and weight
-        ax.set(xlabel="Year Added", ylabel="Number of Movies Added", title="Evolution of Movies Added by Year")
+        ax.set(xlabel="Year Added", ylabel="Number of Movies Added", 
+               title="Evolution of Movies Added by Year")
         ax.title.set_fontsize(20)
         ax.title.set_fontweight('bold')
         ax.xaxis.label.set_fontsize(14)
@@ -58,7 +62,8 @@ def plot_relational_plot(df):
   
 def plot_categorical_plot(df):
     """
-    Create a categorical plot (bar plot) showing the top 10 countries with the most movies.
+    Create a categorical plot (bar plot) showing the 
+    top 10 countries with the most movies.
     """
     
     if 'country' in df.columns:
@@ -69,7 +74,8 @@ def plot_categorical_plot(df):
         fig, ax = plt.subplots(figsize=(10, 6))
 
         # Create a bar plot with a blue color gradient
-        sns.barplot(x=top_countries.values, y=top_countries.index, palette='viridis', ax=ax)
+        sns.barplot(x=top_countries.values, y=top_countries.index,
+                    palette='viridis', ax=ax)
 
         # Set the title and axis labels with specific font sizes and weight
         ax.set(xlabel="Number of Movies", ylabel="Country", 
