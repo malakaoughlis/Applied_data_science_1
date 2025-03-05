@@ -23,7 +23,7 @@ def plot_relational_plot(df):
     of the number of movies added per year.
     A line plot is used to visualize the trend over time.
     """
-    
+
     # Check if 'date_added' column exists
     if 'date_added' in df.columns:
         # Convert to datetime, coerce errors
@@ -62,7 +62,7 @@ def plot_categorical_plot(df):
     Create a categorical plot (bar plot) showing the
     top 10 countries with the most movies.
     """
-    
+
     if 'country' in df.columns:
         # Get top 10 countries with most movies
         top_countries = df['country'].value_counts().head(10)
@@ -135,17 +135,19 @@ def preprocessing(df):
     and providing quick insights using describe(),
     head(), and corr().
     """
+
     # Print preview of the first rows of the dataset
     print("Preview of the first rows of the dataset:")
     print(df.head())
-    
+
     # Display descriptive statistics for numerical variables
     print("\nDescriptive statistics for numerical variables:")
     print(df.describe())
-    
+
     # Select numerical columns for correlation
     numeric_df = df.select_dtypes(include=['number'])
     print("\nCorrelation matrix:")
+    # To avoid errors with non-numeric data
     print(numeric_df.corr())
 
     # Drop rows with missing values in essential columns
@@ -153,7 +155,8 @@ def preprocessing(df):
               inplace=True)
 
     # Convert 'duration' to numeric by extracting minutes
-    df['duration'] = df['duration'].astype(str).str.extract(r'(\d+)').astype(float)
+    df['duration'] = df['duration'].astype(str).\
+        str.extract(r'(\d+)').astype(float)
 
     # Ensure 'release_year' is an integer
     df['release_year'] = df['release_year'].astype(int)
@@ -165,7 +168,7 @@ def writing(moments, col):
     Print the statistical moments for a specific column
     and describe the distribution.
     """
-    
+
     if moments:
         print(f'\nFor the attribute " {col} " :')
         print(f'Mean = {moments[0]:.2f}, '
@@ -174,8 +177,19 @@ def writing(moments, col):
               f'Excess Kurtosis = {moments[3]:.2f}.')
 
         # Interpretation of skewness and kurtosis
-        skew = 'right-skewed' if moments[2] > 0 else 'left-skewed' if moments[2] < 0 else 'not skewed'
-        kurtosis = 'leptokurtic' if moments[3] > 0 else 'platykurtic' if moments[3] < 0 else 'mesokurtic'
+        if moments[2] > 0:
+            skew = 'right-skewed'
+        elif moments[2] < 0:
+            skew = 'left-skewed'
+        else:
+            skew = 'not skewed'
+
+        if moments[3] > 0:
+            kurtosis = 'leptokurtic'
+        elif moments[3] < 0:
+            kurtosis = 'platykurtic'
+        else:
+            kurtosis = 'mesokurtic'
 
         print(f'The data was {skew} and {kurtosis}.')
 
@@ -184,17 +198,28 @@ def main():
     Main function to load data, preprocess it,
     and generate the plots and statistical analysis.
     """
+    # Load the data
     df = pd.read_csv('data.csv')
     df.info()
+
+    # Preprocess the data
     df = preprocessing(df)
+
+    # I chose the column 'duration' for statistical analysis
     col = 'duration'
+
+    # Generate the plots
     plot_relational_plot(df)
     plot_statistical_plot(df)
     plot_categorical_plot(df)
+
+    # Perform statistical analysis
     moments = statistical_analysis(df, col)
+
+    # Display the analysis
     writing(moments, col)
+
     return
 
 if __name__ == '__main__':
     main()
- 
