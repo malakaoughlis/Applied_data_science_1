@@ -194,3 +194,24 @@ def writing(moments, col):
 
         if moments[3] > 0:
             kurtosis = 'leptokurtic'
+
+
+def main():
+    """
+    Main function to load data, preprocess it,
+    and generate the plots and statistical analysis.
+    """
+    df = pd.read_csv('data.csv')
+    df.info()
+    df = preprocessing(df)
+    col = 'duration'
+    plot_relational_plot(df)
+    plot_statistical_plot(df)
+    plot_categorical_plot(df)
+    moments = statistical_analysis(df, col)
+    writing(moments, col)
+    return
+
+if __name__ == '__main__':
+    main()
+
