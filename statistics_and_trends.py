@@ -17,6 +17,7 @@ import seaborn as sns
 import warnings
 warnings.simplefilter(action='ignore', category=FutureWarning)
 
+
 def plot_relational_plot(df):
     """
     Create a relational plot showing the evolution
@@ -57,6 +58,7 @@ def plot_relational_plot(df):
         plt.show()
         return
 
+
 def plot_categorical_plot(df):
     """
     Create a categorical plot (bar plot) showing the
@@ -88,11 +90,13 @@ def plot_categorical_plot(df):
         plt.show()
         return
 
+
 def plot_statistical_plot(df):
     """
     Create a statistical plot (correlation heatmap)
     to visualize correlations between numerical variables.
     """
+
     # Select only numerical columns
     numeric_df = df.select_dtypes(include=['number'])
 
@@ -114,12 +118,14 @@ def plot_statistical_plot(df):
     plt.show()
     return
 
+
 def statistical_analysis(df, col):
     """
     Perform statistical analysis on a given column:
     calculates mean, standard deviation, skewness,
     and excess kurtosis.
     """
+
     # Calculate statistical moments
     mean = df[col].mean()
     stddev = df[col].std()
@@ -127,6 +133,7 @@ def statistical_analysis(df, col):
     excess_kurtosis = df[col].kurtosis() - 3
 
     return mean, stddev, skew, excess_kurtosis
+
 
 def preprocessing(df):
     """
@@ -163,6 +170,7 @@ def preprocessing(df):
 
     return df
 
+
 def writing(moments, col):
     """
     Print the statistical moments for a specific column
@@ -186,40 +194,3 @@ def writing(moments, col):
 
         if moments[3] > 0:
             kurtosis = 'leptokurtic'
-        elif moments[3] < 0:
-            kurtosis = 'platykurtic'
-        else:
-            kurtosis = 'mesokurtic'
-
-        print(f'The data was {skew} and {kurtosis}.')
-
-def main():
-    """
-    Main function to load data, preprocess it,
-    and generate the plots and statistical analysis.
-    """
-    # Load the data
-    df = pd.read_csv('data.csv')
-    df.info()
-
-    # Preprocess the data
-    df = preprocessing(df)
-
-    # I chose the column 'duration' for statistical analysis
-    col = 'duration'
-
-    # Generate the plots
-    plot_relational_plot(df)
-    plot_statistical_plot(df)
-    plot_categorical_plot(df)
-
-    # Perform statistical analysis
-    moments = statistical_analysis(df, col)
-
-    # Display the analysis
-    writing(moments, col)
-
-    return
-
-if __name__ == '__main__':
-    main()
