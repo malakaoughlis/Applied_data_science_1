@@ -178,14 +178,13 @@ def writing(moments, col):
     """
 
     if moments:
-        mean, stddev, skew, excess_kurtosis = moments 
+        mean, stddev, skew, excess_kurtosis = moments
 
         print(f'\nFor the attribute " {col} " :')
         print(f'Mean = {mean:.2f}, '
               f'Standard Deviation = {stddev:.2f}, '
               f'Skewness = {skew:.2f}, and '
               f'Excess Kurtosis = {excess_kurtosis:.2f}.')
-        
         if skew > 0:
             skewness_desc = 'right-skewed'
         elif skew < 0:
